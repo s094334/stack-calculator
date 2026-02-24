@@ -16,11 +16,13 @@ export function createCalculator() {
 
   return {
     add(n) {
-      // TODO: 請實作
+      value += n;
+      undoStack.push({action:"add", value: n})
     },
 
     subtract(n) {
-      // TODO: 請實作
+      value -= n;
+      undoStack.push({action:"subtract", value: n})
     },
 
     getValue() {
@@ -28,7 +30,13 @@ export function createCalculator() {
     },
 
     undo() {
-      // TODO: 請實作
+      if (undoStack.length === 0 ) return
+      const last = undoStack.pop()
+      if (last.action === 'add'){
+        value -= last.value;
+      } else {
+        value += last.value;
+      };
     },
 
     getUndoCount() {
