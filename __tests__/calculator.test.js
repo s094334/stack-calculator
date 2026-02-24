@@ -38,6 +38,20 @@ describe('Calculator', () => {
     expect(calc.getValue()).toBe(-5)
   })
 
+  test('multiply(5)可以乘', () => {
+    const calc = createCalculator()
+    calc.add(5)
+    calc.multiply(5)
+    expect(calc.getValue()).toBe(25)
+  })  
+
+  test('divide(5)可以除', () => {
+    const calc = createCalculator()
+    calc.add(5)
+    calc.divide(5)
+    expect(calc.getValue()).toBe(1)
+  })  
+
   // ============================================================
   // Undo（還原）
   // 每次操作都會 push 進 undoStack，undo 就是 pop 出來「還原上一步」
@@ -95,4 +109,20 @@ describe('Calculator', () => {
     // undo 了一次，undoStack 剩 1 個
     expect(calc.getUndoCount()).toBe(1)
   })
+
+  test('乘除 undo 之後正確', () => {
+    const calc = createCalculator()
+    calc.add(10)
+    calc.multiply(5)
+    calc.divide(10)
+    // 做了兩個操作，undoStack 裡有 2 個
+    expect(calc.getUndoCount()).toBe(3)
+    calc.undo()
+    // undo 了一次，value = 50
+    expect(calc.getValue()).toBe(50)
+    calc.undo()
+    // undo 第二次，value = 10
+    expect(calc.getValue()).toBe(10)
+  })
+
 })

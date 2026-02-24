@@ -25,6 +25,16 @@ export function createCalculator() {
       undoStack.push({action:"subtract", value: n})
     },
 
+    multiply(n) {
+      value *= n;
+      undoStack.push({action:"multiply", value: n})
+    },
+
+    divide(n) {
+      value /= n;
+      undoStack.push({action:"divide", value: n})
+    },
+
     getValue() {
       return value
     },
@@ -34,8 +44,12 @@ export function createCalculator() {
       const last = undoStack.pop()
       if (last.action === 'add'){
         value -= last.value;
-      } else {
+      } else if (last.action === 'subtract') {
         value += last.value;
+      } else if (last.action === 'multiply') {
+        value /= last.value;
+      } else {
+        value *= last.value;
       };
     },
 
